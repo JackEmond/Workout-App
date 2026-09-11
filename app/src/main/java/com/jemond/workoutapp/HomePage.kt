@@ -68,27 +68,6 @@ fun ListOfExercises(exercises: List<Exercise>,
     }
 }
 
-
-@Composable
-fun ExerciseDetailScreen(
-    exerciseName: String,
-    onBack: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Column(modifier = modifier.padding(16.dp)) {
-        Button(onClick = onBack) {
-            Text("Back")
-        }
-        Text(
-            text = exerciseName,
-            fontSize = 30.sp,
-            fontWeight = FontWeight.Bold
-        )
-        Text("Detailed instructions for $exerciseName would go here.")
-    }
-}
-
-
 @Preview(showBackground = true, showSystemUi = true) // Adds the phone frame
 @Composable
 fun HomeScreenPreview() {
@@ -98,11 +77,3 @@ fun HomeScreenPreview() {
 }
 
 
-@Preview(showBackground = true, showSystemUi = true) // Adds the phone frame
-@Composable
-fun ExerciseDetailScreenPreview() {
-    ExerciseDetailScreen(
-        exerciseName = "Bench Press",
-        onBack = {}
-    )
-}
