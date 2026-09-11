@@ -22,7 +22,7 @@ data class Exercise(
 )
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
+fun HomeScreen(modifier: Modifier = Modifier, onExerciseClick: (Exercise) -> Unit) {
     Column(modifier = Modifier.padding(horizontal = 10.dp, vertical = 20.dp)){
         Text(
             "Find an Exercise",
@@ -36,13 +36,14 @@ fun HomeScreen(modifier: Modifier = Modifier) {
             Exercise(name = "Pull Up", category = "Upper Body")
         )
 
-        ListOfExercises(exercises)
+        ListOfExercises(exercises, onExerciseClick = onExerciseClick)
     }
 
 }
 
 @Composable
-fun ListOfExercises(exercises: List<Exercise>) {
+fun ListOfExercises(exercises: List<Exercise>,
+                    onExerciseClick: (Exercise) -> Unit) {
     LazyColumn {
         items(exercises.size) { index ->
             val exercise = exercises[index]
@@ -57,12 +58,33 @@ fun ListOfExercises(exercises: List<Exercise>) {
                 fontSize = 18.sp,
                 modifier = Modifier.weight(1f)
             )
-            Button(onClick = { /*TODO*/ }) {
+                /* onclick open a new page */
+            Button(onClick = { onExerciseClick(exercise) }) {
                 Text(text = ">")
             }
             }
 
         }
+    }
+}
+
+
+@Composable
+fun ExerciseDetailScreen(
+    exerciseName: String,
+    onBack: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(modifier = modifier.padding(16.dp)) {
+        Button(onClick = onBack) {
+            Text("Back")
+        }
+        Text(
+            text = exerciseName,
+            fontSize = 30.sp,
+            fontWeight = FontWeight.Bold
+        )
+        Text("Detailed instructions for $exerciseName would go here.")
     }
 }
 
@@ -73,4 +95,14 @@ fun HomeScreenPreview() {
     WorkoutAppTheme {
         WorkoutAppApp()
     }
+}
+
+
+@Preview(showBackground = true, showSystemUi = true) // Adds the phone frame
+@Composable
+fun ExerciseDetailScreenPreview() {
+    ExerciseDetailScreen(
+        exerciseName = "Bench Press",
+        onBack = {}
+    )
 }

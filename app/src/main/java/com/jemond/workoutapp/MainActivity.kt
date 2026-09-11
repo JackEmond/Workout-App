@@ -41,6 +41,8 @@
     @Composable
     fun WorkoutAppApp() {
         var currentDestination by rememberSaveable { mutableStateOf(AppDestinations.HOME) }
+        var selectedExerciseName by rememberSaveable {
+            mutableStateOf<String?>(null) }
 
         NavigationSuiteScaffold(
             navigationSuiteItems = {
@@ -62,7 +64,22 @@
             Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                 val modifier = Modifier.padding(innerPadding)
 
-                when (currentDestination) {AppDestinations.HOME -> HomeScreen(modifier)
+                when (currentDestination) {
+                    AppDestinations.HOME -> {
+                        if(selectedExerciseName == null){
+                            HomeScreen(
+                                modifier,
+                                onExerciseClick = {exercise -> selectedExerciseName = exercise.name})
+                        }
+                        else{
+                            ExerciseDetailScreen(modifier = modifier,
+                                exerciseName = selectedExerciseName!!,
+                                onBack = { selectedExerciseName = null }
+
+                            )
+
+                        }
+                    }
                     AppDestinations.FAVORITES -> FavouritesScreen(modifier)
                     AppDestinations.PROFILE -> ProfileScreen(modifier)
                 }
